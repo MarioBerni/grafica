@@ -1,7 +1,8 @@
 const chartContainer = d3.select("#chart");
 
 const margin = { top: 20, right: 20, bottom: 50, left: 80 };
-let width = parseInt(chartContainer.style("width")) - margin.left - margin.right;
+const maxWidth = 800;
+let width = Math.min(maxWidth, parseInt(chartContainer.style("width"))) - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 
 const svg = chartContainer
