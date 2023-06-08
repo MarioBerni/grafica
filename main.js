@@ -2,12 +2,13 @@ const chartContainer = d3.select("#chart");
 
 const margin = { top: 20, right: 20, bottom: 50, left: 80 };
 const maxWidth = 800;
-let width = Math.min(maxWidth, parseInt(chartContainer.style("width"))) - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
+const containerWidth = Math.min(maxWidth, parseInt(chartContainer.style("width")));
+const width = containerWidth - margin.left - margin.right;
+const height = Math.max(300, containerWidth * 0.4) - margin.top - margin.bottom;
 
 const svg = chartContainer
   .append("svg")
-  .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+  .attr("viewBox", `0 0 ${containerWidth} ${height + margin.top + margin.bottom}`)
   .attr("preserveAspectRatio", "xMidYMid meet")
   .append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -68,6 +69,16 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr("id", "tooltip")
       .style("opacity", 0);
 
+    const yLine = svg.append("line")
+      .attr("class", "y-line")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", height)
+      .style("stroke", "red")
+      .style("stroke-width", 1)
+      .style("opacity", 0);
+
     svg.selectAll(".bar")
       .on("mouseover", (event, d) => {
         const [date, gdp] = d;
@@ -76,9 +87,13 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
           .style("left", `${event.pageX}px`)
           .style("top", `${event.pageY - 28}px`)
           .attr("data-date", date);
+        
+        const xPos = xScale(new Date(date));
+        yLine.attr("x1", xPos).attr("x2", xPos).style("opacity", 1);
       })
       .on("mouseout", () => {
         tooltip.transition().duration(200).style("opacity", 0);
+        yLine.style("opacity", 0);
       });
   })
   .catch(error => console.error(error));
