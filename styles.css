@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#container {
+  padding: 20px;
+  width: 95%;
+  max-width: 800px;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left; /* Asegurar que el texto dentro no esté centrado, si así lo deseas */
+}
+
+#title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center; /* Centrar el título */
+}
+
+#description {
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center; /* Centrar la descripción */
+}
+
+#chart {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+#tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 5px;
+  background: rgb(40, 230, 11);
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.axis-label {
+  font-size: 14px;
+  font-weight: bold;
+  fill: #333;
+}
+
+.axis-info {
+  font-size: 12px;
+  fill: #555;
+}
