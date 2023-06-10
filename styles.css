@@ -6,13 +6,13 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #container {
   padding: 20px;
   width: 95%;
-  max-width: ${maxWidth}px;
+  max-width: 800px; 
   background: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -25,6 +25,7 @@ body {
   font-size: 24px;
   margin-bottom: 10px;
   text-align: center;
+  color: blue;
 }
 
 #description {
@@ -35,21 +36,23 @@ body {
 
 #chart {
   width: 100%;
-  max-width: ${maxWidth}px;
+  max-width: 800px; 
   height: auto;
   margin: 0 auto;
 }
 
 #tooltip {
   position: absolute;
-  text-align: center;
-  padding: 5px;
-  background: rgb(40, 230, 11);
-  color: rgb(0, 0, 0);
-  border: 1px solid black;
-  border-radius: 5px;
+  padding: 10px;
+  background: linear-gradient(to bottom, #4c4c4c, #000000);
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
   pointer-events: none;
-}
+  }
 
 .axis-label {
   font-size: 14px;
@@ -60,4 +63,10 @@ body {
 .axis-info {
   font-size: 12px;
   fill: #555;
+}
+
+@media screen and (max-width: 600px) {
+  #container {
+    width: 100%;
+  }
 }

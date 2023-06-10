@@ -1,10 +1,10 @@
 const chartContainer = d3.select("#chart");
 
-const margin = { top: 20, right: 20, bottom: 50, left: 80 };
+const margin = { top: 60, right: 20, bottom: 60, left: 100 };
 const maxWidth = 800;
 const containerWidth = Math.min(maxWidth, parseInt(chartContainer.style("width")));
 const width = containerWidth - margin.left - margin.right;
-const height = Math.max(300, containerWidth * 0.4) - margin.top - margin.bottom;
+const height = Math.max(300, containerWidth * 0.6) - margin.top - margin.bottom;
 
 const svg = chartContainer
   .append("svg")
@@ -12,6 +12,17 @@ const svg = chartContainer
   .attr("preserveAspectRatio", "xMidYMid meet")
   .append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("opacity", 0);
+
+const verticalLine = svg.append("line")
+  .attr("stroke", "black")
+  .attr("y1", 0)
+  .attr("y2", height)
+  .attr("opacity", 0);
 
 fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json")
   .then(response => response.json())
@@ -58,42 +69,26 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr("class", "bar")
       .attr("x", d => xScale(new Date(d[0])))
       .attr("y", d => yScale(d[1]))
-      .attr("width", width / dataset.length + 0.2)
+      .attr("width", width / dataset.length - 1)
       .attr("height", d => height - yScale(d[1]))
       .attr("data-date", d => d[0])
       .attr("data-gdp", d => d[1])
-      .attr("fill", "#1E90FF");
-
-    const tooltip = chartContainer
-      .append("div")
-      .attr("id", "tooltip")
-      .style("opacity", 0);
-
-    const yLine = svg.append("line")
-      .attr("class", "y-line")
-      .attr("x1", 0)
-      .attr("y1", 0)
-      .attr("x2", 0)
-      .attr("y2", height)
-      .style("stroke", "red")
-      .style("stroke-width", 1)
-      .style("opacity", 0);
-
-    svg.selectAll(".bar")
+      .attr("fill", "#1E90FF")
       .on("mouseover", (event, d) => {
         const [date, gdp] = d;
-        tooltip.transition().duration(200).style("opacity", 0.9);
-        tooltip.html(`${date}<br>${gdp}`)
-          .style("left", `${event.pageX}px`)
+        tooltip.transition().duration(200).style("opacity", .9);
+        tooltip.html(`Fecha: ${date}<br>PIB: $${gdp} Billones`)
+          .style("left", `${event.pageX + 5}px`)
           .style("top", `${event.pageY - 28}px`)
           .attr("data-date", date);
-        
+
         const xPos = xScale(new Date(date));
-        yLine.attr("x1", xPos).attr("x2", xPos).style("opacity", 1);
+        verticalLine.attr("x1", xPos).attr("x2", xPos).style("opacity", 1);
       })
       .on("mouseout", () => {
-        tooltip.transition().duration(200).style("opacity", 0);
-        yLine.style("opacity", 0);
+        tooltip.transition().duration(500).style("opacity", 0);
+        verticalLine.style("opacity", 0);
       });
+
   })
   .catch(error => console.error(error));
