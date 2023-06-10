@@ -79,7 +79,7 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr("class", "bar")
       .attr("x", d => xScale(new Date(d[0])))
       .attr("y", d => yScale(d[1]))
-      .attr("width", width / dataset.length - 1)
+      .attr("width", Math.max(1, width / dataset.length - 1))
       .attr("height", d => height - yScale(d[1]))
       .attr("data-date", d => d[0])
       .attr("data-gdp", d => d[1])
