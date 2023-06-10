@@ -37,13 +37,21 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .domain([0, d3.max(dataset, d => d[1])])
       .range([height, 0]);
 
-    const xAxis = d3.axisBottom(xScale).ticks(10);
+    const tickAmount = containerWidth < 400 ? 5 : 10;
+    const xAxis = d3.axisBottom(xScale).ticks(tickAmount);
     const yAxis = d3.axisLeft(yScale);
 
     svg.append("g")
       .attr("id", "x-axis")
       .attr("transform", `translate(0, ${height})`)
       .call(xAxis);
+
+    svg.select("#x-axis")
+      .selectAll("text")
+      .attr("transform", "rotate(-40)")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em");
 
     svg.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 5})`)
@@ -78,8 +86,8 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         const [date, gdp] = d;
         tooltip.transition().duration(200).style("opacity", .9);
         tooltip.html(`Fecha: ${date}<br>PIB: $${gdp} Billones`)
-          .style("left", `${event.pageX + 5}px`)
-          .style("top", `${event.pageY - 28}px`)
+          .style("left", `${Math.min(event.pageX, window.innerWidth - 150)}px`)
+          .style("top", `${event.pageY - 60}px`)
           .attr("data-date", date);
 
         const xPos = xScale(new Date(date));
