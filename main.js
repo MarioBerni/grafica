@@ -1,6 +1,6 @@
 const chartContainer = d3.select("#chart");
 
-const margin = { top: 60, right: 20, bottom: 60, left: 100 };
+const margin = { top: 40, right: 20, bottom: 40, left: 60 };
 const maxWidth = 800;
 const containerWidth = Math.min(maxWidth, parseInt(chartContainer.style("width")));
 const width = containerWidth - margin.left - margin.right;
@@ -56,6 +56,7 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
     svg.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 5})`)
       .style("text-anchor", "middle")
+      .style("font-size", containerWidth < 400 ? "10px" : "14px")
       .text("Fecha");
 
     svg.append("g")
@@ -68,6 +69,7 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
+      .style("font-size", containerWidth < 400 ? "10px" : "14px")
       .text("Valor del PIB (Miles de millones de dólares)");
 
     svg.selectAll(".bar")
